@@ -1,0 +1,18 @@
+{
+  "name": "com.winuxgames.splitframework.dialogue",
+  "version": "1.0.0",
+  "displayName": "Split Framework Dialogue",
+  "description": "Dialogue for Split Apart Games",
+  "unity": "2021.2",
+  "dependencies": {
+    "dev.yarnspinner.unity": "https://github.com/YarnSpinnerTool/YarnSpinner-Unity.git#v2.1.0",
+    "com.unity.inputsystem": "1.3.0",
+    "com.unity.textmeshpro": "3.0.6"
+  },
+  "keywords": [],
+  "author": {
+    "name": "WinuXGames",
+    "email": "support@winuxgames.com",
+    "url": "https://www.winuxgames.com"
+  }
+}
