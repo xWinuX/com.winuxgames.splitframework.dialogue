@@ -5,6 +5,7 @@
   "description": "Dialogue for Split Apart Games",
   "unity": "2021.2",
   "dependencies": {
+    "com.winuxgames.splitframework.ui": "https://github.com/xWinuX/com.winuxgames.splitframework.ui.git",
     "dev.yarnspinner.unity": "https://github.com/YarnSpinnerTool/YarnSpinner-Unity.git#v2.1.0",
     "com.unity.inputsystem": "1.3.0",
     "com.unity.textmeshpro": "3.0.6"
