@@ -1,7 +1,9 @@
 {
     "name": "com.winuxgames.splitframework.dialogue.editor",
     "rootNamespace": "WinuXGames.SplitFramework.Dialogue.Editor",
-    "references": [],
+    "references": [
+        "GUID:18defed5d6f93414f978cad626275813"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

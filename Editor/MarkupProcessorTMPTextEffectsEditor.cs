@@ -1,8 +1,8 @@
-﻿using SplitApart.DialogueSystem.Markup.Processors;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
+using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
 
-namespace SplitApart.Editor.Dialogue
+namespace WinuXGames.SplitFramework.Dialogue.Editor
 {
     [CustomEditor(typeof(MarkupProcessorTMPTextEffects))]
     public class MarkupProcessorTMPTextEffectsEditor : UnityEditor.Editor
