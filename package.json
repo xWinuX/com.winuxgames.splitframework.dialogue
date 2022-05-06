@@ -1,6 +1,6 @@
 {
   "name": "com.winuxgames.splitframework.dialogue",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "displayName": "Split Framework Dialogue",
   "description": "Dialogue for Split Apart Games",
   "unity": "2021.2",
