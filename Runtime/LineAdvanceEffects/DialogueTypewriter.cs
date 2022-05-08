@@ -2,47 +2,66 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
 
 namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
 {
     public class DialogueTypewriter : LineViewAdvanceEffect
     {
         [SerializeField] private float _lettersPerSecond;
-        
+
         protected override IEnumerator EffectCoroutine(TMP_Text text, Action<int, char> onLetterChangeAction, Action onComplete)
         {
-            text.maxVisibleCharacters = 0;
-            
+            text.maxVisibleCharacters = int.MaxValue;
+            text.ForceMeshUpdate();
+
             yield return null;
 
-            int characterCount = text.textInfo.characterCount;
+            text.ModifyVertexData(MakeTextInvisibleAction);
+            text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
             
+            int characterCount = text.textInfo.characterCount;
+
             if (_lettersPerSecond <= 0 || characterCount == 0)
             {
-                text.maxVisibleCharacters = characterCount;
                 onComplete?.Invoke();
                 yield break;
             }
-            
-            float accumulator      = Time.deltaTime;
 
-            while (text.maxVisibleCharacters < characterCount)
+            float accumulator    = Time.deltaTime;
+            int   lettersVisible = 0;
+            while (lettersVisible < characterCount)
             {
                 float secondsPerLetter = 1.0f / _lettersPerSecond;
                 while (accumulator >= secondsPerLetter)
                 {
-                    text.maxVisibleCharacters += 1;
-                    onLetterChangeAction.Invoke(text.maxVisibleCharacters, text.text[text.maxVisibleCharacters-1]);
+                    text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
+                    text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                    lettersVisible += 1;
+                    onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible - 1]);
                     accumulator -= secondsPerLetter;
                 }
+
                 accumulator += Time.deltaTime;
 
                 yield return null;
             }
             
-            text.maxVisibleCharacters = characterCount;
-            
             onComplete?.Invoke();
         }
+
+        private static void SetTextVisibility(byte alpha, TMP_MeshInfo meshInfo, int vertexIndex)
+        {
+            Color32[] colors = meshInfo.colors32;
+
+            colors[vertexIndex].a     = alpha;
+            colors[vertexIndex + 1].a = alpha;
+            colors[vertexIndex + 2].a = alpha;
+            colors[vertexIndex + 3].a = alpha;
+        }
+        
+        private static void MakeTextVisibleAction(TMP_MeshInfo meshInfo, int vertexIndex, int iteration) { SetTextVisibility(255, meshInfo, vertexIndex); }
+        
+        private static void MakeTextInvisibleAction(TMP_MeshInfo meshInfo, int vertexIndex, int iteration) { SetTextVisibility(0, meshInfo, vertexIndex); }
     }
 }

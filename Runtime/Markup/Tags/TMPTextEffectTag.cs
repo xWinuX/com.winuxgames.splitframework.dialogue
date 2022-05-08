@@ -7,10 +7,9 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Tags
     {
         public TMPTextEffectTag(TMPTextEffect representation, int startPosition, int endPosition) : base(representation, startPosition, endPosition) { }
         
-        public void ApplyVertices(TMP_TextInfo textInfo, TMP_CharacterInfo[] characterInfos)
+        public void ApplyEffect(TMP_TextInfo textInfo, TMP_MeshInfo[] cachedMeshInfo, TMP_CharacterInfo[] characterInfos)
         {
-            Representation.ApplyEffect(textInfo, characterInfos, StartPosition, EndPosition);
+            Representation.ApplyEffect(textInfo, cachedMeshInfo, characterInfos, StartPosition, EndPosition);
         }
-
     }
 }

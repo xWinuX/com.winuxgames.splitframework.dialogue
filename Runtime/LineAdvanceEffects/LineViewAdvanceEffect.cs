@@ -13,8 +13,11 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
             yield return null;
         }
 
+        protected virtual void OnBeforeStart(TMP_Text text) { }
+        
         public void StartEffect(TMP_Text text, Action<int, char> onLetterChangeAction, Action onComplete)
         {
+            OnBeforeStart(text);
             StartCoroutine(EffectCoroutine(text, onLetterChangeAction, onComplete));
         }
     }

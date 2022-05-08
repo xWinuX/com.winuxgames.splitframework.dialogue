@@ -1,8 +1,8 @@
 ﻿title: Test
 tags:
 ---
-This is a Test, everything should be working
-Including [shake=1]Basic[/shake] [wave amp=50 freq=1 spd=5]Text[/wave] [color=blue]Effects[/color]
+This is a Test, <color=red>everything</color> should be working
+Including [shake=1]Basic[/shake] [wave amp=5 freq=1 spd=5]Text[/wave] [color=blue]Effects[/color]
 And Questions!
 -> Option 1
     This is the reply after Option 1

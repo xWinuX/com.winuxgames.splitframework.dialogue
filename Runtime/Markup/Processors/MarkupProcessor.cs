@@ -9,7 +9,8 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
     public abstract class MarkupProcessor : MonoBehaviour, IMarkupProcessor
     {
         private readonly List<MarkupAttribute> _markupAttributes = new List<MarkupAttribute>();
-        private readonly List<InlineEventTag>  _markupList       = new List<InlineEventTag>();
+        private readonly List<InlineEventTag>  _inlineEvents     = new List<InlineEventTag>();
+        private readonly List<int>             _removeList       = new List<int>();
 
         public void AssignAttributes(IEnumerable<MarkupAttribute> markupAttributes)
         {
@@ -21,22 +22,22 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
         public void Handle(int position)
         {
             // Early out if markup list is empty
-            if (_markupList.Count == 0) { return; }
+            if (_inlineEvents.Count == 0) { return; }
 
-            List<int> removeList = new List<int>();
-            for (int i = 0; i < _markupList.Count; i++)
+            _removeList.Clear();
+            for (int i = 0; i < _inlineEvents.Count; i++)
             {
-                InlineEventTag inlineEventTag = _markupList[i];
+                InlineEventTag inlineEventTag = _inlineEvents[i];
 
                 // Early out if position doesn't match
                 if (inlineEventTag.TriggerPosition != position) { continue; }
 
                 // Run behaviour and add index to remove list if markup was closed or is self closing
-                if (inlineEventTag.Run()) { removeList.Add(i); }
+                if (inlineEventTag.Run()) { _removeList.Add(i); }
             }
 
             // Remove stuff to remove
-            foreach (int i in removeList) { _markupList.RemoveAt(i); }
+            foreach (int i in _removeList) { _inlineEvents.RemoveAt(i); }
         }
 
         protected virtual InlineEvent ProcessMarkupAttribute(MarkupAttribute markupAttribute, int startPosition, int endPosition)
@@ -51,7 +52,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
 
         protected virtual void Prepare()
         {
-            _markupList.Clear();
+            _inlineEvents.Clear();
 
             foreach (MarkupAttribute markupAttribute in _markupAttributes)
             {
@@ -62,7 +63,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
 
                 if (inlineEvent == null) { continue; }
 
-                _markupList.Add(new InlineEventTag(inlineEvent, startPosition, endPosition));
+                _inlineEvents.Add(new InlineEventTag(inlineEvent, startPosition, endPosition));
             }
         }
     }

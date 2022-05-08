@@ -3,7 +3,10 @@
     "rootNamespace": "WinuXGames.SplitFramework.Dialogue",
     "references": [
         "GUID:34aa492b82754644eac2f903cd496268",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:cc1ec75aaf778ab44918a6e010f287cc",
+        "GUID:c5c4bbe23c14a4b4abe84ef9b12d0db2",
+        "GUID:4bb6b6c5e0c041faa98eef1aa0735b50"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

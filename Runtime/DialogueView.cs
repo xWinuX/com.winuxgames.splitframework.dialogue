@@ -12,17 +12,15 @@ namespace WinuXGames.SplitFramework.Dialogue
     {
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        [SerializeField] private TMP_Text              _lineText;
+        [SerializeField] private TMP_Text              _tmpText;
         [SerializeField] private LineViewAdvanceEffect _lineViewAdvanceEffect;
         [SerializeField] private List<MarkupProcessor> _markupProcessors;
 
-        private LocalizedLine        _currentLine;
-        private Action<int, char>    _onLetterChange;
+        private LocalizedLine     _currentLine;
+        private Action<int, char> _onLetterChange;
 
         private Action _currentOnDialogueFinishedAction;
         private bool   _lineAdvanceEffectFinished;
-        
-        private void Awake() { _canvasGroup.alpha = 0; }
 
         private void OnEnable() { _onLetterChange += OnLetterChange; }
 
@@ -33,15 +31,12 @@ namespace WinuXGames.SplitFramework.Dialogue
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.Handle(position); }
         }
 
-        public override void DismissLine(Action onDismissalComplete)
-        {
-            onDismissalComplete.Invoke();
-        }
-        
+        public override void DismissLine(Action onDismissalComplete) { onDismissalComplete.Invoke(); }
+
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             // Immediately appear 
-            _lineText.gameObject.SetActive(true);
+            _tmpText.gameObject.SetActive(true);
             _canvasGroup.gameObject.SetActive(true);
             _canvasGroup.interactable   = true;
             _canvasGroup.alpha          = 1;
@@ -50,13 +45,14 @@ namespace WinuXGames.SplitFramework.Dialogue
             _currentLine = dialogueLine;
 
             // Get preprocessed text
-            _lineText.text = _currentLine.Text.Text;
+            _tmpText.text    = _currentLine.Text.Text;
+            _tmpText.enabled = true;
 
             // Prepare Markup processor
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.AssignAttributes(_currentLine.Text.Attributes); }
 
             // Start line advance effect
-            _lineViewAdvanceEffect.StartEffect(_lineText, _onLetterChange, () => _lineAdvanceEffectFinished = true);
+            _lineViewAdvanceEffect.StartEffect(_tmpText, _onLetterChange, () => _lineAdvanceEffectFinished = true);
 
             _currentOnDialogueFinishedAction = onDialogueLineFinished;
         }
@@ -64,6 +60,8 @@ namespace WinuXGames.SplitFramework.Dialogue
         public override void UserRequestedViewAdvancement()
         {
             if (!_lineAdvanceEffectFinished) { return; }
+
+            _tmpText.enabled = false;
 
             _currentOnDialogueFinishedAction.Invoke();
             _lineAdvanceEffectFinished = false;

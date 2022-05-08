@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Yarn.Markup;
 
-namespace WinuXGames.SplitFramework.Dialogue.Markup.Reactors
+namespace WinuXGames.SplitFramework.Dialogue.Markup.Utility
 {
-    public abstract class MarkupReactor
+    public abstract class MarkupUtility
     {
-        protected static float GetPropertyNumberValue(IReadOnlyDictionary<string, MarkupValue> property, string key, float defaultValue = 0f)
+        public static float GetPropertyNumberValue(IReadOnlyDictionary<string, MarkupValue> property, string key, float defaultValue = 0f)
         {
             if (!property.TryGetValue(key, out MarkupValue markupValue)) { return defaultValue; }
 

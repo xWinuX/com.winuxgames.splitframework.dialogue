@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
+using WinuXGames.SplitFramework.Dialogue.Markup.Utility;
 using Yarn.Markup;
 
 namespace WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects
@@ -10,19 +13,22 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects
         
         public TMPTextEffectShake(IReadOnlyDictionary<string,MarkupValue> properties)
         {
-            _shakeIntensity = GetPropertyNumberValue(properties, "shake", _shakeIntensity);
-
+            _shakeIntensity = MarkupUtility.GetPropertyNumberValue(properties, "shake", _shakeIntensity);
         }
         
-        protected override void Operation(Vector3[] vertices, Color32[] colors, int vertexIndex, int iteration)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void Operation(TMP_MeshInfo meshInfo, TMP_MeshInfo cachedMeshInfo, int vertexIndex, int iteration)
         {
             float offset = Random.Range(-_shakeIntensity, _shakeIntensity);
 
+            Vector3[] vertices = meshInfo.vertices;
+            Vector3[] cachedVertices = cachedMeshInfo.vertices;
+            
             Vector3 axis = new Vector3(1f, 1f, 0f);
-            vertices[vertexIndex]     += axis * offset;
-            vertices[vertexIndex + 1] += axis * offset;
-            vertices[vertexIndex + 2] += axis * offset;
-            vertices[vertexIndex + 3] += axis * offset;
+            vertices[vertexIndex]     = cachedVertices[vertexIndex]     + axis * offset;
+            vertices[vertexIndex + 1] = cachedVertices[vertexIndex + 1] + axis * offset;
+            vertices[vertexIndex + 2] = cachedVertices[vertexIndex + 2] + axis * offset;
+            vertices[vertexIndex + 3] = cachedVertices[vertexIndex + 3] + axis * offset;
         }
     }
 }

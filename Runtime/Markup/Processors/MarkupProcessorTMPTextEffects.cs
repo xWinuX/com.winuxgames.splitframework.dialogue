@@ -14,9 +14,10 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
     {
         private readonly List<TMPTextEffectTag> _textEffectList = new List<TMPTextEffectTag>();
 
-        private TMP_Text _tmpText;
-        private string   _textBeforePreview;
-        private bool     _readyToUpdate;
+        private TMP_Text       _tmpText;
+        private TMP_MeshInfo[] _cachedMeshInfo;
+        private string         _textBeforePreview;
+        private bool           _readyToUpdate;
 
         private void Awake() { _tmpText = GetComponent<TMP_Text>(); }
 
@@ -24,6 +25,8 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
         {
             if (_readyToUpdate) { UpdateTextMesh(); }
         }
+
+        private void OnEnable() { _tmpText.OnPreRenderText += info => { _cachedMeshInfo = info.CopyMeshInfoVertexData(); }; }
 
         public void EnablePreview()
         {
@@ -67,15 +70,9 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
 
         private void UpdateTextMesh()
         {
-            _tmpText.ForceMeshUpdate();
+            foreach (TMPTextEffectTag textEffectElement in _textEffectList) { textEffectElement.ApplyEffect(_tmpText.textInfo, _cachedMeshInfo, _tmpText.textInfo.characterInfo); }
 
-            foreach (TMPTextEffectTag textEffectElement in _textEffectList) { textEffectElement.ApplyVertices(_tmpText.textInfo, _tmpText.textInfo.characterInfo); }
-
-            for (int i = 0; i < _tmpText.textInfo.meshInfo.Length; i++)
-            {
-                _tmpText.textInfo.meshInfo[i].mesh.vertices = _tmpText.textInfo.meshInfo[i].vertices;
-                _tmpText.UpdateGeometry(_tmpText.textInfo.meshInfo[i].mesh, i);
-            }
+            _tmpText.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
         }
     }
 }

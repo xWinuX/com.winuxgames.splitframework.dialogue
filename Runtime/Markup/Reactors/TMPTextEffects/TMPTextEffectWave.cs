@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
+using WinuXGames.SplitFramework.Dialogue.Markup.Utility;
 using Yarn.Markup;
 
 namespace WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects
@@ -12,19 +15,23 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects
 
         public TMPTextEffectWave(IReadOnlyDictionary<string, MarkupValue> properties)
         {
-            _frequency = GetPropertyNumberValue(properties, "freq", _frequency) * Mathf.Deg2Rad;
-            _amplitude = GetPropertyNumberValue(properties, "amp", _amplitude);
-            _speed     = GetPropertyNumberValue(properties, "spd", _speed);
+            _frequency = MarkupUtility.GetPropertyNumberValue(properties, "freq", _frequency) * Mathf.Deg2Rad;
+            _amplitude = MarkupUtility.GetPropertyNumberValue(properties, "amp", _amplitude);
+            _speed     = MarkupUtility.GetPropertyNumberValue(properties, "spd", _speed);
         }
 
-        protected override void Operation(Vector3[] vertices, Color32[] colors, int vertexIndex, int iteration)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void Operation(TMP_MeshInfo meshInfo, TMP_MeshInfo cachedMeshInfo, int vertexIndex, int iteration)
         {
             float offset = Mathf.Sin((Time.time * _speed) + (vertexIndex * _frequency)) * _amplitude;
 
-            vertices[vertexIndex]     += Vector3.up * offset;
-            vertices[vertexIndex + 1] += Vector3.up * offset;
-            vertices[vertexIndex + 2] += Vector3.up * offset;
-            vertices[vertexIndex + 3] += Vector3.up * offset;
+            Vector3[] vertices       = meshInfo.vertices;
+            Vector3[] cachedVertices = cachedMeshInfo.vertices;
+            
+            vertices[vertexIndex]     = cachedVertices[vertexIndex] + Vector3.up * offset;
+            vertices[vertexIndex + 1] = cachedVertices[vertexIndex + 1] + Vector3.up * offset;
+            vertices[vertexIndex + 2] = cachedVertices[vertexIndex + 2] + Vector3.up * offset;
+            vertices[vertexIndex + 3] = cachedVertices[vertexIndex + 3] + Vector3.up * offset;
         }
     }
 }
