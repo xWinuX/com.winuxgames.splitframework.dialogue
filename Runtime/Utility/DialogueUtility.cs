@@ -1,7 +1,7 @@
 ﻿using Yarn;
 using Yarn.Markup;
 
-namespace WinuXGames.SplitFramework.Dialogue
+namespace WinuXGames.SplitFramework.Dialogue.Utility
 {
     public static class DialogueUtility
     {

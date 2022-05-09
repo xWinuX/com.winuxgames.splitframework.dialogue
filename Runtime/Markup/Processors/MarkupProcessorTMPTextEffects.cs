@@ -4,6 +4,7 @@ using UnityEngine;
 using WinuXGames.SplitFramework.Dialogue.Markup.Reactors.InlineEvents;
 using WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects;
 using WinuXGames.SplitFramework.Dialogue.Markup.Tags;
+using WinuXGames.SplitFramework.Dialogue.Utility;
 using Yarn.Markup;
 
 namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors

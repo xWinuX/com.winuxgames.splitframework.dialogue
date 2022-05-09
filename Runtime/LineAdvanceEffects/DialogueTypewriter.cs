@@ -14,12 +14,10 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
         {
             text.maxVisibleCharacters = int.MaxValue;
             text.ForceMeshUpdate();
-
-            yield return null;
-
+            
             text.ModifyVertexData(MakeTextInvisibleAction);
             text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-            
+
             int characterCount = text.textInfo.characterCount;
 
             if (_lettersPerSecond <= 0 || characterCount == 0)
@@ -35,7 +33,7 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
                 float secondsPerLetter = 1.0f / _lettersPerSecond;
                 while (accumulator >= secondsPerLetter)
                 {
-                    text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
+                    text.ModifyVertexData(0, lettersVisible+1, MakeTextVisibleAction);
                     text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
                     lettersVisible += 1;
                     onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible - 1]);

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using WinuXGames.SplitFramework.Dialogue.Core;
+using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
 using WinuXGames.SplitFramework.UI.Elements;
 using WinuXGames.SplitFramework.UI.Providers;
 using WinuXGames.SplitFramework.UI.Selectables;
 using Yarn.Unity;
 
-namespace WinuXGames.SplitFramework.Dialogue
+namespace WinuXGames.SplitFramework.Dialogue.Views.OptionViews
 {
-    public class SelectablesListView : DialogueViewBase, ISelectablesContainer
+    public class SelectablesListView : DialogueViewBase, ISelectablesContainer, IMarkupProcessorContainer
     {
         [Header("General")]
         [SerializeField] private SO_UIDependencyProvider _uiDependency;
@@ -23,6 +25,11 @@ namespace WinuXGames.SplitFramework.Dialogue
         [SerializeField] private UISelectableTextDialogueOption _uiSelectablePrefab;
         [SerializeField] private UISelector _selectorPrefab;
 
+        [Header("Markup")]
+        [SerializeField] private List<MarkupProcessor> _markupProcessors;
+        
+        public List<MarkupProcessor> MarkupProcessors => _markupProcessors;
+        
         public List<ISelectable> Selectables { get; } = new List<ISelectable>();
 
         private readonly List<UISelectableTextDialogueOption> _selectables = new List<UISelectableTextDialogueOption>();
@@ -63,8 +70,7 @@ namespace WinuXGames.SplitFramework.Dialogue
                 UISelectableTextDialogueOption selectable = CreateNewSelectable();
                 selectable.gameObject.SetActive(false);
             }
-
-            Debug.Log(dialogueOptions.Length);
+            
             Selectables.Clear();
             for (int i = 0; i < dialogueOptions.Length; i++)
             {
@@ -77,8 +83,6 @@ namespace WinuXGames.SplitFramework.Dialogue
                 optionView.AssignDialogueOption(option);
 
                 Selectables.Add(optionView);
-                Debug.Log("selectables added");
-                Debug.Log(Selectables.Count);
             }
 
             if (_lastLineText != null)
@@ -112,6 +116,7 @@ namespace WinuXGames.SplitFramework.Dialogue
             _onOptionSelected(option.DialogueOptionID);
             _uiDependency.SelectableManager.GoBack();
             Hide();
+            Canvas.ForceUpdateCanvases();
         }
     }
 }

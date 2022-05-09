@@ -1,7 +1,7 @@
 ﻿using System;
 using Yarn.Unity;
 
-namespace WinuXGames.SplitFramework.Dialogue
+namespace WinuXGames.SplitFramework.Dialogue.Core
 {
     public interface IDialogueOption
     {

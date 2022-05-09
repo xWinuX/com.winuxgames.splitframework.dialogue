@@ -6,23 +6,33 @@ using WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
 using Yarn.Unity;
 
-namespace WinuXGames.SplitFramework.Dialogue
+namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
 {
-    public class DialogueView : DialogueViewBase
+    public class DialogueView : DialogueViewBase, IMarkupProcessorContainer
     {
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [SerializeField] private TMP_Text              _tmpText;
         [SerializeField] private LineViewAdvanceEffect _lineViewAdvanceEffect;
         [SerializeField] private List<MarkupProcessor> _markupProcessors;
-
+        
+        public List<MarkupProcessor> MarkupProcessors => _markupProcessors;
+        
         private LocalizedLine     _currentLine;
         private Action<int, char> _onLetterChange;
 
         private Action _currentOnDialogueFinishedAction;
         private bool   _lineAdvanceEffectFinished;
 
-        private void OnEnable() { _onLetterChange += OnLetterChange; }
+        private void OnEnable()
+        {
+            _onLetterChange += OnLetterChange;
+            _tmpText.OnPreRenderText += _ =>
+            {
+                Debug.Log("Rebuild");
+            };
+
+        }
 
         private void OnDisable() { _onLetterChange -= OnLetterChange; }
 
@@ -45,8 +55,8 @@ namespace WinuXGames.SplitFramework.Dialogue
             _currentLine = dialogueLine;
 
             // Get preprocessed text
-            _tmpText.text    = _currentLine.Text.Text;
-            _tmpText.enabled = true;
+            _tmpText.text                 = _currentLine.Text.Text;
+            _tmpText.maxVisibleCharacters = 0;
 
             // Prepare Markup processor
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.AssignAttributes(_currentLine.Text.Attributes); }
@@ -60,8 +70,6 @@ namespace WinuXGames.SplitFramework.Dialogue
         public override void UserRequestedViewAdvancement()
         {
             if (!_lineAdvanceEffectFinished) { return; }
-
-            _tmpText.enabled = false;
 
             _currentOnDialogueFinishedAction.Invoke();
             _lineAdvanceEffectFinished = false;
