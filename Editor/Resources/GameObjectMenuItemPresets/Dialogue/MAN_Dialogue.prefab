@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a0c76cc6a0432784fc3d09c43d89a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _yarnProject: {fileID: 7545569452688597077, guid: 06a8410240ed4b84ca0ff3fa5bd7a287,
+    type: 3}
   _dialoguePresets:
   - _preset: {fileID: 11400000, guid: 4f9a5f1601b39dc4a9cb4a6ef793f6a4, type: 2}
     _keepAlive: 1
