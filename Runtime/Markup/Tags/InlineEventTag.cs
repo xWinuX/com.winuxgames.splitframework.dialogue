@@ -1,4 +1,4 @@
-﻿using WinuXGames.SplitFramework.Dialogue.Markup.Reactors.InlineEvents;
+﻿using WinuXGames.SplitFramework.Dialogue.Markup.Reactors;
 
 namespace WinuXGames.SplitFramework.Dialogue.Markup.Tags
 {

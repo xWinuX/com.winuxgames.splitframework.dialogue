@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using WinuXGames.SplitFramework.Dialogue.Markup.Reactors.InlineEvents;
+using WinuXGames.SplitFramework.Dialogue.Markup.Reactors;
 using WinuXGames.SplitFramework.Dialogue.Markup.Tags;
 using Yarn.Markup;
 
-namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
+namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors.Core
 {
     public abstract class MarkupProcessor : MonoBehaviour, IMarkupProcessor
     {

@@ -15,7 +15,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Utility
             return defaultValue;
         }
 
-        protected static string GetPropertyStringValue(IReadOnlyDictionary<string, MarkupValue> property, string key, string defaultValue = "") =>
+        public static string GetPropertyStringValue(IReadOnlyDictionary<string, MarkupValue> property, string key, string defaultValue = "") =>
             !property.TryGetValue(key, out MarkupValue markupValue) ? defaultValue : markupValue.StringValue;
     }
 }

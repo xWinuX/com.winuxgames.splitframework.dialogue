@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ea3d0cba0da48259fbf0527e695171a, type: 3}
-  m_Name: DefaultOverworldDialogue
+  m_Name: BarebonesTextOnlyDialogue
   m_EditorClassIdentifier: 
-  _dialoguePrefab: {fileID: 5656542376466420084, guid: bbc4ac138413bcb44812884c4ac037e7,
+  _dialoguePrefab: {fileID: 3363415585767915838, guid: 3732f0300a9c3374ea67bf9d35cd9ccd,
     type: 3}

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using WinuXGames.SplitFramework.Dialogue.Markup.Reactors.InlineEvents;
+using WinuXGames.SplitFramework.Dialogue.Markup.Processors.Core;
+using WinuXGames.SplitFramework.Dialogue.Markup.Reactors;
 using WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects;
 using WinuXGames.SplitFramework.Dialogue.Markup.Tags;
 using WinuXGames.SplitFramework.Dialogue.Utility;
@@ -54,6 +55,9 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
                 case "wave":
                     _textEffectList.Add(new TMPTextEffectTag(new TMPTextEffectWave(markupAttribute.Properties), startPosition, endPosition));
                     break;
+                case "color":
+                    _textEffectList.Add(new TMPTextEffectTag(new TMPTextEffectColor(markupAttribute.Properties), startPosition, endPosition));
+                    break;
             }
 
             return null;
@@ -71,7 +75,10 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
 
         private void UpdateTextMesh()
         {
-            foreach (TMPTextEffectTag textEffectElement in _textEffectList) { textEffectElement.ApplyEffect(_tmpText.textInfo, _cachedMeshInfo, _tmpText.textInfo.characterInfo); }
+            foreach (TMPTextEffectTag textEffectElement in _textEffectList)
+            {
+                textEffectElement.ApplyEffect(_tmpText.textInfo, _cachedMeshInfo, _tmpText.textInfo.characterInfo);
+            }
 
             _tmpText.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
         }

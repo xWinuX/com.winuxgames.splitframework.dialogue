@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5973676575334922911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5973676575334922898}
+  - component: {fileID: 5973676575334922909}
+  - component: {fileID: 5973676575334922908}
+  m_Layer: 0
+  m_Name: MAN_Dialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5973676575334922898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5973676575334922911}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 172.48763, y: 87.93363, z: 0.3060889}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5973676575334922909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5973676575334922911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68130b68449c4e96928fad3b14da47d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _providerToInitialize: {fileID: 11400000, guid: e4cba276ff6edc14db1cab8ef2d721fd,
+    type: 2}
+  _dialogueManager: {fileID: 5973676575334922908}
+--- !u!114 &5973676575334922908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5973676575334922911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a0c76cc6a0432784fc3d09c43d89a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialoguePresets:
+  - _preset: {fileID: 11400000, guid: 4f9a5f1601b39dc4a9cb4a6ef793f6a4, type: 2}
+    _keepAlive: 1
+  - _preset: {fileID: 11400000, guid: d88d36259a1115c4a8bed16cee3bc45b, type: 2}
+    _keepAlive: 0

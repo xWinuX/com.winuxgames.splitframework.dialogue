@@ -4,9 +4,11 @@ using TMPro;
 using UnityEngine;
 using WinuXGames.SplitFramework.Dialogue.Core;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
+using WinuXGames.SplitFramework.Dialogue.Markup.Processors.Core;
 using WinuXGames.SplitFramework.UI.Elements;
 using WinuXGames.SplitFramework.UI.Providers;
 using WinuXGames.SplitFramework.UI.Selectables;
+using WinuXGames.SplitFramework.UI.Selectables.Core;
 using Yarn.Unity;
 
 namespace WinuXGames.SplitFramework.Dialogue.Views.OptionViews

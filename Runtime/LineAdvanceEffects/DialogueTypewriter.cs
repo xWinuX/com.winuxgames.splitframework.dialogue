@@ -2,22 +2,19 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
+using WinuXGames.SplitFramework.Dialogue.Extensions;
 
 namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
 {
-    public class DialogueTypewriter : LineViewAdvanceEffect
+    public class DialogueTypewriter : DialogueLetterRevealHandler
     {
         [SerializeField] private float _lettersPerSecond;
 
         protected override IEnumerator EffectCoroutine(TMP_Text text, Action<int, char> onLetterChangeAction, Action onComplete)
         {
-            text.maxVisibleCharacters = int.MaxValue;
-            text.ForceMeshUpdate();
-            
             text.ModifyVertexData(MakeTextInvisibleAction);
             text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-
+            
             int characterCount = text.textInfo.characterCount;
 
             if (_lettersPerSecond <= 0 || characterCount == 0)
@@ -25,15 +22,20 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
                 onComplete?.Invoke();
                 yield break;
             }
-
+            
+            // Execute first letter change
+            onLetterChangeAction.Invoke(0, text.text[0]);
+            
             float accumulator    = Time.deltaTime;
             int   lettersVisible = 0;
             while (lettersVisible < characterCount)
             {
+                if (Paused) { yield return new WaitUntil(() => !Paused); }
+
                 float secondsPerLetter = 1.0f / _lettersPerSecond;
                 while (accumulator >= secondsPerLetter)
                 {
-                    text.ModifyVertexData(0, lettersVisible+1, MakeTextVisibleAction);
+                    text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
                     text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
                     lettersVisible += 1;
                     onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible - 1]);

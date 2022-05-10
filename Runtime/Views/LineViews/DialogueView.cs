@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Overlays;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 using WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
+using WinuXGames.SplitFramework.Dialogue.Markup.Processors.Core;
 using Yarn.Unity;
 
 namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
@@ -12,27 +16,19 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
     {
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        [SerializeField] private TMP_Text              _tmpText;
-        [SerializeField] private LineViewAdvanceEffect _lineViewAdvanceEffect;
-        [SerializeField] private List<MarkupProcessor> _markupProcessors;
-        
+        [SerializeField]                                                  private TMP_Text                    _tmpText;
+        [FormerlySerializedAs("_lineViewAdvanceEffect")] [SerializeField] private DialogueLetterRevealHandler _dialogueLetterRevealHandler;
+        [SerializeField]                                                  private List<MarkupProcessor>       _markupProcessors;
+
         public List<MarkupProcessor> MarkupProcessors => _markupProcessors;
-        
+
         private LocalizedLine     _currentLine;
         private Action<int, char> _onLetterChange;
 
         private Action _currentOnDialogueFinishedAction;
         private bool   _lineAdvanceEffectFinished;
 
-        private void OnEnable()
-        {
-            _onLetterChange += OnLetterChange;
-            _tmpText.OnPreRenderText += _ =>
-            {
-                Debug.Log("Rebuild");
-            };
-
-        }
+        private void OnEnable() { _onLetterChange += OnLetterChange; }
 
         private void OnDisable() { _onLetterChange -= OnLetterChange; }
 
@@ -57,12 +53,14 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
             // Get preprocessed text
             _tmpText.text                 = _currentLine.Text.Text;
             _tmpText.maxVisibleCharacters = 0;
+            
+            Canvas.ForceUpdateCanvases();
 
             // Prepare Markup processor
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.AssignAttributes(_currentLine.Text.Attributes); }
 
             // Start line advance effect
-            _lineViewAdvanceEffect.StartEffect(_tmpText, _onLetterChange, () => _lineAdvanceEffectFinished = true);
+            _dialogueLetterRevealHandler.StartEffect(_tmpText, _onLetterChange, () => _lineAdvanceEffectFinished = true);
 
             _currentOnDialogueFinishedAction = onDialogueLineFinished;
         }

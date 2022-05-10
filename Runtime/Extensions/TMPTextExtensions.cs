@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
-namespace WinuXGames.SplitFramework.Dialogue.Markup.Processors
+namespace WinuXGames.SplitFramework.Dialogue.Extensions
 {
     public static class TMPTextExtensions
     {

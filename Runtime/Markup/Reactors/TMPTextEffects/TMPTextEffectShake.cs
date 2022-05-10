@@ -9,9 +9,11 @@ namespace WinuXGames.SplitFramework.Dialogue.Markup.Reactors.TMPTextEffects
 {
     public class TMPTextEffectShake : TMPTextEffect
     {
+        protected override bool UpdateEachFrame { get; set; } = true;
+
         private readonly float _shakeIntensity = 20f; 
         
-        public TMPTextEffectShake(IReadOnlyDictionary<string,MarkupValue> properties)
+        public TMPTextEffectShake(IReadOnlyDictionary<string,MarkupValue> properties) : base(properties)
         {
             _shakeIntensity = MarkupUtility.GetPropertyNumberValue(properties, "shake", _shakeIntensity);
         }

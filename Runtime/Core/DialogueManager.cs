@@ -7,6 +7,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
 {
     public class DialogueManager : MonoBehaviour
     {
+        [SerializeField] private YarnProject               _yarnProject;
         [SerializeField] private List<DialoguePresetEntry> _dialoguePresets;
 
         private readonly Dictionary<SO_DialoguePreset, DialogueRunner> _presets = new Dictionary<SO_DialoguePreset, DialogueRunner>();
@@ -17,7 +18,8 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
             {
                 DialogueRunner dialogueRunner = Instantiate(dialoguePresetEntry.Preset.DialoguePrefab, transform);
                 _presets.Add(dialoguePresetEntry.Preset, dialogueRunner);
-                //dialogueRunner.gameObject.SetActive(false);
+                dialogueRunner.SetProject(_yarnProject);
+                dialogueRunner.gameObject.SetActive(false);
             }
         }
 
@@ -30,18 +32,14 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
             else
             {
                 runner = Instantiate(preset.DialoguePrefab, transform);
+                runner.SetProject(_yarnProject);
                 runner.onDialogueComplete.AddListener(() =>
                 {
-                    Destroy(runner);
+                    Destroy(runner.gameObject);
                 });
             }
 
-            runner.StartDialogue(node);
-        }
-
-        public void OpenDefaultDialogue(string node)
-        {
-            OpenDialogue(_dialoguePresets.First().Preset, node);
+           runner.StartDialogue(node);
         }
     }
 }
