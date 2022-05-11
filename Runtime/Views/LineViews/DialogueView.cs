@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 using WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors.Core;
