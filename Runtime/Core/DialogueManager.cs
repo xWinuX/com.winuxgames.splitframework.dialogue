@@ -23,7 +23,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
             }
         }
 
-        public void OpenDialogue(SO_DialoguePreset preset, string node)
+        public DialogueRunner OpenDialogue(SO_DialoguePreset preset, string node)
         {
             if (_presets.TryGetValue(preset, out DialogueRunner runner))
             {
@@ -40,6 +40,8 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
             }
 
            runner.StartDialogue(node);
+
+           return runner;
         }
     }
 }
