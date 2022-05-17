@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using WinuXGames.SplitFramework.Utility;
 using Yarn.Unity;
 
 namespace WinuXGames.SplitFramework.Dialogue.Core
@@ -15,12 +14,19 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
 
         private void Start()
         {
-            foreach (DialoguePresetEntry dialoguePresetEntry in _dialoguePresets.Where(preset => preset.KeepAlive))
+            foreach (DialoguePresetEntry dialoguePresetEntry in _dialoguePresets.Where(preset => preset.KeepAlive && preset.SceneDialogue != null))
             {
                 DialogueRunner dialogueRunner = Instantiate(dialoguePresetEntry.Preset.DialoguePrefab, transform);
                 _presets.Add(dialoguePresetEntry.Preset, dialogueRunner);
                 dialogueRunner.SetProject(_yarnProject);
-                StartCoroutine(CoroutineUtility.WaitForOneFrame(() => dialogueRunner.gameObject.SetActive(false)));
+                dialogueRunner.gameObject.SetActive(false);
+            }
+
+            foreach (DialoguePresetEntry dialoguePresetEntry in _dialoguePresets.Where(preset => preset.SceneDialogue != null))
+            {
+                _presets.Add(dialoguePresetEntry.Preset, dialoguePresetEntry.SceneDialogue);
+                dialoguePresetEntry.SceneDialogue.SetProject(_yarnProject);
+                dialoguePresetEntry.SceneDialogue.gameObject.SetActive(false);
             }
         }
 
