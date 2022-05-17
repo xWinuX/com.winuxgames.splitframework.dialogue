@@ -12,7 +12,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
 
         private readonly Dictionary<SO_DialoguePreset, DialogueRunner> _presets = new Dictionary<SO_DialoguePreset, DialogueRunner>();
 
-        private void Awake()
+        private void Start()
         {
             foreach (DialoguePresetEntry dialoguePresetEntry in _dialoguePresets.Where(preset => preset.KeepAlive))
             {
