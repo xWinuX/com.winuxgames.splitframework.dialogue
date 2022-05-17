@@ -14,17 +14,18 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
     {
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        [SerializeField]                                                  private TMP_Text                    _tmpText;
-        [FormerlySerializedAs("_lineViewAdvanceEffect")] [SerializeField] private DialogueLetterRevealHandler _dialogueLetterRevealHandler;
-        [SerializeField]                                                  private List<MarkupProcessor>       _markupProcessors;
+        [SerializeField] private TMP_Text _tmpText;
+        [FormerlySerializedAs("_lineViewAdvanceEffect")] [SerializeField]
+        private DialogueLetterRevealHandler _dialogueLetterRevealHandler;
+        [SerializeField] private List<MarkupProcessor> _markupProcessors;
 
         public List<MarkupProcessor> MarkupProcessors => _markupProcessors;
 
         private LocalizedLine     _currentLine;
         private Action<int, char> _onLetterChange;
 
-        private Action _currentOnDialogueFinishedAction;
-        private bool   _lineAdvanceEffectFinished;
+        protected Action CurrentOnDialogueFinishedAction;
+        protected bool   LineAdvanceEffectFinished;
 
         private void OnEnable() { _onLetterChange += OnLetterChange; }
 
@@ -51,24 +52,24 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
             // Get preprocessed text
             _tmpText.text                 = _currentLine.Text.Text;
             _tmpText.maxVisibleCharacters = 0;
-            
+
             Canvas.ForceUpdateCanvases();
 
             // Prepare Markup processor
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.AssignAttributes(_currentLine.Text.Attributes); }
 
             // Start line advance effect
-            _dialogueLetterRevealHandler.StartEffect(_tmpText, _onLetterChange, () => _lineAdvanceEffectFinished = true);
+            _dialogueLetterRevealHandler.StartEffect(_tmpText, _onLetterChange, () => LineAdvanceEffectFinished = true);
 
-            _currentOnDialogueFinishedAction = onDialogueLineFinished;
+            CurrentOnDialogueFinishedAction = onDialogueLineFinished;
         }
 
         public override void UserRequestedViewAdvancement()
         {
-            if (!_lineAdvanceEffectFinished) { return; }
+            if (!LineAdvanceEffectFinished) { return; }
 
-            _currentOnDialogueFinishedAction.Invoke();
-            _lineAdvanceEffectFinished = false;
+            CurrentOnDialogueFinishedAction.Invoke();
+            LineAdvanceEffectFinished = false;
         }
     }
 }
