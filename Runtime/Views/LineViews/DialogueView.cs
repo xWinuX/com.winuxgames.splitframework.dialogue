@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors;
 using WinuXGames.SplitFramework.Dialogue.Markup.Processors.Core;
@@ -14,10 +13,11 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
     {
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        [SerializeField] private TMP_Text _tmpText;
-        [FormerlySerializedAs("_lineViewAdvanceEffect")] [SerializeField]
-        private DialogueLetterRevealHandler _dialogueLetterRevealHandler;
-        [SerializeField] private List<MarkupProcessor> _markupProcessors;
+        [SerializeField] private TMP_Text                    _tmpText;
+        [SerializeField] private DialogueLetterRevealHandler _dialogueLetterRevealHandler;
+        [SerializeField] private List<MarkupProcessor>       _markupProcessors;
+
+        public virtual bool ReadyForNextLine => LineAdvanceEffectFinished;
 
         public List<MarkupProcessor> MarkupProcessors => _markupProcessors;
 

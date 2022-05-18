@@ -32,27 +32,29 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
             }
         }
 
-        public DialogueRunner OpenDialogue(SO_DialoguePreset preset, string node)
+        public DialogueRunner OpenDialogue(SO_DialoguePreset preset, string node, bool important = false)
         {
-            if (_presets.TryGetValue(preset, out DialogueRunner runner))
+            if (CurrentDialogueRunner != null)
             {
-                runner.gameObject.SetActive(true);
+                if (important) { return null; }
+
+                CurrentDialogueRunner.Stop();
             }
+
+            if (_presets.TryGetValue(preset, out DialogueRunner runner)) { runner.gameObject.SetActive(true); }
             else
             {
                 runner = Instantiate(preset.DialoguePrefab, transform);
                 runner.SetProject(_yarnProject);
-                runner.onDialogueComplete.AddListener(() =>
-                {
-                    Destroy(runner.gameObject);
-                });
+                runner.onDialogueComplete.AddListener(() => { Destroy(runner.gameObject); });
             }
 
-           runner.StartDialogue(node);
+            runner.StartDialogue(node);
+            runner.onDialogueComplete.AddListener(() => { CurrentDialogueRunner = null; });
 
-           CurrentDialogueRunner = runner;
+            CurrentDialogueRunner = runner;
 
-           return runner;
+            return runner;
         }
     }
 }

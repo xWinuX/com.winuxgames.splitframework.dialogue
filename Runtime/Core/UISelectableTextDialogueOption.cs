@@ -9,17 +9,9 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
         private DialogueOption         _dialogueOption;
         private Action<DialogueOption> _onOptionSelected;
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            OnSubmitUnityEvent.AddListener(OnOptionSelected);
-        }
+        protected void OnEnable() { OnSubmitUnityEvent.AddListener(OnOptionSelected); }
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            OnSubmitUnityEvent.RemoveListener(OnOptionSelected);
-        }
+        protected void OnDisable() { OnSubmitUnityEvent.RemoveListener(OnOptionSelected); }
 
         public void AssignDialogueOption(DialogueOption option)
         {
