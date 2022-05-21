@@ -98,7 +98,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.OptionViews
                 else { _lastLineText.gameObject.SetActive(false); }
             }
 
-            _uiDependency.SelectableManager.SetSelectableContainer(this, _selectorPrefab);
+            _uiDependency.SelectableManager.SetSelectableContainer(this, 0, _selectorPrefab);
 
             _onOptionSelected = onOptionSelected;
         }
