@@ -23,8 +23,8 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
 
         private LocalizedLine     _currentLine;
         private Action<int, char> _onLetterChange;
-        private Action            _onComplete;
-
+        
+        protected Action OnComplete;
         protected Action CurrentOnDialogueFinishedAction;
         protected bool   LineAdvanceEffectFinished;
 
@@ -60,8 +60,8 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.AssignAttributes(_currentLine.Text.Attributes); }
 
             // Start line advance effect
-            _onComplete ??= () => LineAdvanceEffectFinished = true;
-            _dialogueLetterRevealHandler.StartEffect(_tmpText, _onLetterChange, _onComplete);
+            OnComplete ??= () => LineAdvanceEffectFinished = true;
+            _dialogueLetterRevealHandler.StartEffect(_tmpText, _onLetterChange, OnComplete);
 
             CurrentOnDialogueFinishedAction = onDialogueLineFinished;
         }
