@@ -16,7 +16,9 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
             text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
             
             int characterCount = text.textInfo.characterCount;
-
+            
+            Debug.Log(text.text.Length);
+            Debug.Log(characterCount);
             if (_lettersPerSecond <= 0 || characterCount == 0)
             {
                 onComplete?.Invoke();
