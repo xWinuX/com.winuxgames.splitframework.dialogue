@@ -11,8 +11,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
 {
     public class DialogueView : DialogueViewBase, IMarkupProcessorContainer
     {
-        [SerializeField] private CanvasGroup _canvasGroup;
-
+        [SerializeField] private CanvasGroup                 _canvasGroup;
         [SerializeField] private TMP_Text                    _tmpText;
         [SerializeField] private DialogueLetterRevealHandler _dialogueLetterRevealHandler;
         [SerializeField] private List<MarkupProcessor>       _markupProcessors;
@@ -23,10 +22,10 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
 
         private LocalizedLine     _currentLine;
         private Action<int, char> _onLetterChange;
-        
-        protected Action OnComplete;
-        protected Action CurrentOnDialogueFinishedAction;
-        protected bool   LineAdvanceEffectFinished;
+
+        protected Action                      OnComplete;
+        protected Action                      CurrentOnDialogueFinishedAction;
+        protected bool                        LineAdvanceEffectFinished;
 
         private void OnEnable() { _onLetterChange += OnLetterChange; }
 
@@ -37,7 +36,11 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.Handle(position); }
         }
 
-        public override void DismissLine(Action onDismissalComplete) { onDismissalComplete.Invoke(); }
+        public override void DismissLine(Action onDismissalComplete)
+        {
+            _dialogueLetterRevealHandler.Stop();
+            onDismissalComplete.Invoke();
+        }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
