@@ -32,7 +32,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Core
             }
         }
 
-        public DialogueRunner OpenDialogue(SO_DialoguePreset preset, string node, bool important = false)
+        public virtual DialogueRunner OpenDialogue(SO_DialoguePreset preset, string node, bool important = false)
         {
             if (CurrentDialogueRunner != null)
             {

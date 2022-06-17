@@ -5,7 +5,7 @@ This is a Test, everything[wait=0.5/] should[wait=0.5/] be[wait=0.5/] working[wa
 Including [shake=1]Basic[/shake] [wave amp=5 freq=1 spd=5]Text[/wave] [color=blue]Effects[/color]
 And Questions!
 -> Option 1
-    This is the reply after Option 1
+    <<jump SimpleTest>>
 -> Option 2
     This is the reply after Option 2
 

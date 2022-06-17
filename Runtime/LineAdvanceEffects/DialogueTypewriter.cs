@@ -35,13 +35,11 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
                 if (Paused) { yield return new WaitUntil(() => !Paused); }
 
                 float secondsPerLetter = 1.0f / _lettersPerSecond;
-                while (accumulator >= secondsPerLetter)
+                while (accumulator >= secondsPerLetter && lettersVisible < characterCount)
                 {
                     text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
                     text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
                     lettersVisible += 1;
-                    Debug.Log(lettersVisible);
-                    Debug.Log(text.text);
                     onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible - 1]);
                     accumulator -= secondsPerLetter;
                 }
