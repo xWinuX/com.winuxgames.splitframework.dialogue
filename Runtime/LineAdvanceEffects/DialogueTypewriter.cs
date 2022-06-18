@@ -27,15 +27,17 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
             int   lettersVisible = 0;
             while (lettersVisible < characterCount)
             {
+                Debug.Log(lettersVisible);
                 if (Paused) { yield return new WaitUntil(() => !Paused); }
 
                 float secondsPerLetter = 1.0f / _lettersPerSecond;
                 while (accumulator >= secondsPerLetter && lettersVisible < characterCount)
                 {
+                    Debug.Log(accumulator);
                     onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible]);
-                    lettersVisible += 1;
-                    text.ModifyVertexData(lettersVisible, lettersVisible, MakeTextVisibleAction);
+                    text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
                     text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                    lettersVisible += 1;
                     accumulator -= secondsPerLetter;
                 }
 
