@@ -17,17 +17,12 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
             
             int characterCount = text.textInfo.characterCount;
             
-            Debug.Log(text.text.Length);
-            Debug.Log(characterCount);
             if (_lettersPerSecond <= 0 || characterCount == 0)
             {
                 onComplete?.Invoke();
                 yield break;
             }
-            
-            // Execute first letter change
-            onLetterChangeAction.Invoke(0, text.text[0]);
-            
+
             float accumulator    = Time.deltaTime;
             int   lettersVisible = 0;
             while (lettersVisible < characterCount)
@@ -37,10 +32,10 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
                 float secondsPerLetter = 1.0f / _lettersPerSecond;
                 while (accumulator >= secondsPerLetter && lettersVisible < characterCount)
                 {
-                    text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
-                    text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                    onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible]);
                     lettersVisible += 1;
-                    onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible - 1]);
+                    text.ModifyVertexData(lettersVisible, lettersVisible, MakeTextVisibleAction);
+                    text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
                     accumulator -= secondsPerLetter;
                 }
 
