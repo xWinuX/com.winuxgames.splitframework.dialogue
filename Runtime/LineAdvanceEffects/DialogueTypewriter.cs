@@ -34,10 +34,10 @@ namespace WinuXGames.SplitFramework.Dialogue.LineAdvanceEffects
                 while (accumulator >= secondsPerLetter && lettersVisible < characterCount)
                 {
                     Debug.Log(accumulator);
-                    onLetterChangeAction.Invoke(lettersVisible, text.text[lettersVisible]);
-                    text.ModifyVertexData(lettersVisible, lettersVisible+1, MakeTextVisibleAction);
-                    text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
                     lettersVisible += 1;
+                    onLetterChangeAction.Invoke(lettersVisible-1, text.text[lettersVisible-1]);
+                    text.ModifyVertexData(lettersVisible-1, lettersVisible, MakeTextVisibleAction);
+                    text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
                     accumulator -= secondsPerLetter;
                 }
 
