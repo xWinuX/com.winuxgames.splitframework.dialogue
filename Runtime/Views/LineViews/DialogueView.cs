@@ -31,7 +31,7 @@ namespace WinuXGames.SplitFramework.Dialogue.Views.LineViews
 
         private void OnDisable() { _onLetterChange -= OnLetterChange; }
 
-        private void OnLetterChange(int position, char character)
+        protected virtual void OnLetterChange(int position, char character)
         {
             foreach (IMarkupProcessor markupProcessor in _markupProcessors) { markupProcessor.Handle(position); }
         }
